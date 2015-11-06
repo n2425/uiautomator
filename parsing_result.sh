@@ -13,9 +13,9 @@ function usage()
 function parse_result()
 {
 	#echo "${SQLITE3} $INPUT_FILE_NAME 'select * from history' | sed -n 3p"
-	first_result=`${SQLITE3} $INPUT_FILE_NAME 'select * from history' | sed -n 3p`;
-	second_result=`${SQLITE3} $INPUT_FILE_NAME 'select * from history' | sed -n 2p`;
-	third_result=`${SQLITE3} $INPUT_FILE_NAME 'select * from history' | sed -n 1p`;
+	first_result=`${SQLITE3} $INPUT_FILE_NAME 'select * from history' | tail -3 | sed -n 1p`;
+	second_result=`${SQLITE3} $INPUT_FILE_NAME 'select * from history' | tail -3 | sed -n 2p `;
+	third_result=`${SQLITE3} $INPUT_FILE_NAME 'select * from history' | tail -3 | sed -n 3p`;
     
     first_result=`echo $first_result | awk -F'|' '{print $9,$10,$12,$14}'`
     second_result=`echo $second_result | awk -F'|' '{print $9,$10,$12,$14}'`

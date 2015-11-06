@@ -101,7 +101,7 @@ sudo ${ADB} -s ${AP_LIST_DEVICE_NAME[${INDEX}]} shell input keyevent 82
 echo "step1 install androbench"
 sudo ${ADB} -s ${AP_LIST_DEVICE_NAME[${INDEX}]} install ${ANDROBENCH_APK};
 
-sleep 15;
+sleep 20;
 
 #send jar file
 echo "step2 push jar to the device"
@@ -112,7 +112,7 @@ sleep 5;
 echo "step3 start androbench  ${AP_LIST_DEVICE_NAME[${INDEX}]}"
 sudo ${ADB} -s ${AP_LIST_DEVICE_NAME[${INDEX}]} shell 'am start -a android.intent.category.LAUNCHER -n com.andromeda.androbench2/.main'
 
-sleep 7;
+sleep 15;
 #start test
 echo "step4 automation start ${AP_LIST_DEVICE_NAME[${INDEX}]}"c
 sudo ${ADB} -s ${AP_LIST_DEVICE_NAME[${INDEX}]} shell uiautomator runtest ${AUTOMATION_JAR} -c Androbench
