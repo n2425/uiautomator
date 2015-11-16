@@ -1,31 +1,28 @@
 #!/bin/bash
-ADB="${HOME}/Android/Sdk/platform-tools/adb"
-AP_LIST=("rk3288" "allwinner_a80t" "amlogic_s805" "msm8974" "exynos5420")
-AP_LIST_DEVICE_NAME=("A0Y9GJTJE1" "20080411" "HKC11122F37DFFC5" "1" "0123456789ABCDEF")
+source ${PWD}/lib/common.sh
+source ${PWD}/lib/optparse.bash
+
+optparse.define short=i long=iteration desc="iteration count" variable=LOOP_COUNT default=3
+optparse.define short=r long=receiver desc="email addr for receiving result" variable=RECEIVER default="hm.kim@the-aio.com"
+
+source $( optparse.build )
+
 CONNECTED_AP_INDEX=();
 DATE="`date +%F`_`date +%T`"
 OUTPUT_DIR="result/[$DATE]"
 OUTPUT_FILE_NAME="${OUTPUT_DIR}/${DATE}_test_result.csv"
-#AP_LIST_DEVICE_NAME=("A0Y9GJTJE1" "20080411" "HKC11122F37DFFC5" "1" "android")
 
-#start adb server
-sudo ${ADB} kill-server
-sudo ${ADB} start-server
-
-function send_email()
+function usage()
 {
-	if [ $# -ne 3 ];then
-		echo "send_email() from to file";
-	fi
-
-	echo "send email callling!!!!!!"
-
-	local from=$1;
-	local to=$2;
-	local attached_file=$3;
-
-	echo "test complete" | mutt -s "[SQA] host performance test compelte - `date +%F` - `date +%T`" -a ${attached_file} -e "my_hdr FROM:${from}" -- ${to}
+	print_err "$0 -i 3 -r hm.kim@the-aio.com"
 }
+
+if [ -z $LOOP_COUNT ] || [ $LOOP_COUNT -gt 10 ]|| [ -z $RECEIVER ]; then
+	usage;
+	exit 1;
+fi
+
+reset_adb_server
 
 #make log dir
 if [ ! -d  result ];then
@@ -46,11 +43,11 @@ do
 done
 
 if [ -z $CONNECTED_AP_INDEX ];then
-	echo "[ERROR] no device connected, check adb connection again"
+	print_err "no device connected, check adb connection again"
 	exit 1;
 fi
 
-echo "[DEBUG] conneted AP index : ${CONNECTED_AP_INDEX[@]}"
+print_info "conneted AP index : ${CONNECTED_AP_INDEX[@]}"
 
 #in case of msm8974 root mode is needed
 for index in "${CONNECTED_AP_INDEX[@]}"
@@ -63,7 +60,8 @@ done
 #start each automation
 for index in "${CONNECTED_AP_INDEX[@]}"
 do
-	./run_androbench_test.sh ${AP_LIST[${index}]} &
+	echo "./run_androbench_test.sh -a ${AP_LIST[${index}]} -i ${LOOP_COUNT}"
+	./run_androbench_test.sh -a ${AP_LIST[${index}]} -i ${LOOP_COUNT} &
 done
 
 #wait all subprocess finished
@@ -72,9 +70,7 @@ do
 	wait ${job};
 done
 
-echo "NONONOONO"
-
-echo "[INFO] all automation has finished"
+print_info "all automation has finished"
 
 mv result/*.db ${OUTPUT_DIR};
 
@@ -85,7 +81,8 @@ do
 done
 
 #send result to user via email
-send_email "hm.kim@the-aio.com" "hm.kim@the-aio.com" ${OUTPUT_FILE_NAME}; #from,to,attached_file
+#from,to,attached_file
+send_email "hm.kim@the-aio.com" "hm.kim@the-aio.com" "test complete" ${OUTPUT_FILE_NAME}; 
 
 
 
