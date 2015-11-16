@@ -77,7 +77,7 @@ mv result/*.db ${OUTPUT_DIR};
 #parse result
 for index in "${CONNECTED_AP_INDEX[@]}"
 do
-	./parsing_result.sh ${AP_LIST[${index}]} ${OUTPUT_DIR}/${AP_LIST[${index}]}_result.db ${OUTPUT_FILE_NAME}
+	./parsing_result.sh ${AP_LIST[${index}]} ${OUTPUT_DIR}/${AP_LIST[${index}]}_result.db ${OUTPUT_FILE_NAME} ${LOOP_COUNT}
 done
 
 #send result to user via email
