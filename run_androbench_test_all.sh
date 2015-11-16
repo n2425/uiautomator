@@ -53,7 +53,7 @@ print_info "conneted AP index : ${CONNECTED_AP_INDEX[@]}"
 for index in "${CONNECTED_AP_INDEX[@]}"
 do
 	if [ "${AP_LIST[${index}]}" = "msm8974" ];then
-		sudo ${AP_LIST_DEVICE_NAME[${index}]} -s 1 root;
+		sudo ${ADB} -s ${AP_LIST_DEVICE_NAME[${index}]} root;
 	fi
 done
 
