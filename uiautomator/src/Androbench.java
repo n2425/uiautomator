@@ -34,8 +34,13 @@ public class Androbench extends UiAutomatorTestCase {
 		}
 		
 		for (int i = 1; i < loop; i++) {
-			Button1.clickAndWaitForNewWindow();
-			Button2.clickAndWaitForNewWindow();
+			if(Button1.waitForExists(360000)) {
+				Button1.clickAndWaitForNewWindow();
+			}
+			if(Button2.waitForExists(360000)) {
+				Button2.clickAndWaitForNewWindow();
+			}
+			
 			if(Button3.waitForExists(360000)) {
 				Button3.clickAndWaitForNewWindow();
 			}
