@@ -13,6 +13,9 @@ public class Androbench extends UiAutomatorTestCase {
 		System.out.printf("loop count: %d\n", loop);
 
 		/* first cycle */
+		
+		System.out.printf("count 1\n");
+		
 		UiObject Button1 = new UiObject(new UiSelector().className("android.widget.Button").index(0));
 		
 		Button1.clickAndWaitForNewWindow();
@@ -34,12 +37,16 @@ public class Androbench extends UiAutomatorTestCase {
 		}
 		
 		for (int i = 1; i < loop; i++) {
-			if(Button1.waitForExists(30000)) {
-				Button1.clickAndWaitForNewWindow();
-			}
-			if(Button2.waitForExists(30000)) {
-				Button2.clickAndWaitForNewWindow();
-			}
+			System.out.printf("count %d\n", i);
+			
+			try {
+				Thread.sleep(7000);
+			} catch (InterruptedException e) {}
+			
+			Button1.clickAndWaitForNewWindow();
+			
+			Button2.clickAndWaitForNewWindow();
+			
 			
 			if(Button3.waitForExists(30000)) {
 				Button3.clickAndWaitForNewWindow();
