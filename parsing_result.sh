@@ -15,7 +15,7 @@ function parse_result()
 {
     for loop_count in `seq 1 ${LOOP_COUNT[@]}`
     do
-        result=`${SQLITE3} $INPUT_FILE_NAME 'select * from history' | tail -10 | sed -n ${loop_count}p`;
+        result=`${SQLITE3} $INPUT_FILE_NAME 'select * from history' | tail -${LOOP_COUNT} | sed -n ${loop_count}p`;
         result=`echo $result | awk -F'|' '{print $9,$10,$12,$14}'`
         echo -n $result >> ${WHOLE_DATA}
         echo -n " " >> ${WHOLE_DATA}
