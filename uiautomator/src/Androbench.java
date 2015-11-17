@@ -26,33 +26,32 @@ public class Androbench extends UiAutomatorTestCase {
 	
 		UiObject Button3 = new UiObject(new UiSelector().text("Cancel"));
 		
-		if(Button3.waitForExists(30000)) {
+		if(Button3.waitForExists(86400000)) {
 			Button3.clickAndWaitForNewWindow();
 		}
 		
 		UiObject Button4 = new UiObject(new UiSelector().className("android.widget.TextView").index(0));
 		
-		if(Button4.waitForExists(30000)) {
+		if(Button4.waitForExists(86400000)) {
 			Button4.clickAndWaitForNewWindow();
 		}
 		
 		for (int i = 1; i < loop; i++) {
-			System.out.printf("count %d\n", i);
+			System.out.printf("count %d\n", i + 1);
 			
-			try {
-				Thread.sleep(7000);
-			} catch (InterruptedException e) {}
+			if(Button1.waitForExists(86400000)) {
+				Button1.clickAndWaitForNewWindow();
+			}
 			
-			Button1.clickAndWaitForNewWindow();
+			if(Button2.waitForExists(86400000)) {
+				Button2.clickAndWaitForNewWindow();
+			}
 			
-			Button2.clickAndWaitForNewWindow();
-			
-			
-			if(Button3.waitForExists(30000)) {
+			if(Button3.waitForExists(86400000)) {
 				Button3.clickAndWaitForNewWindow();
 			}
 			
-			if(Button4.waitForExists(30000)) {
+			if(Button4.waitForExists(86400000)) {
 				Button4.clickAndWaitForNewWindow();
 			}
 			
