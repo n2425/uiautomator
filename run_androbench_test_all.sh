@@ -82,7 +82,7 @@ done
 
 #send result to user via email
 #from,to,attached_file
-send_email "hm.kim@the-aio.com" "hm.kim@the-aio.com" "test complete" ${OUTPUT_FILE_NAME}; 
+send_email "hm.kim@the-aio.com" "${RECEIVER}" "test complete" ${OUTPUT_FILE_NAME}; 
 
 
 
